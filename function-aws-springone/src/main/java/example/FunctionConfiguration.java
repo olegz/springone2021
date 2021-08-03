@@ -6,9 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
-import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
-
 @SpringBootApplication
 public class FunctionConfiguration {
 
@@ -29,16 +26,6 @@ public class FunctionConfiguration {
 			else {
 				return value.toUpperCase();
 			}
-		};
-	}
-
-	@Bean
-	public Function<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> uppercaseApiGateway() {
-		return value -> {
-			APIGatewayV2HTTPResponse response = new APIGatewayV2HTTPResponse();
-			response.setStatusCode(404);
-			response.setBody("Resource not found");
-			return response;
 		};
 	}
 }
