@@ -111,21 +111,26 @@
 						<groupId>org.graalvm.buildtools</groupId>
 						<artifactId>native-maven-plugin</artifactId>
 						<version>${native.buildtools.version}</version>
+						<configuration>
+							<buildArgs>
+								<buildArg>--enable-url-protocols=http</buildArg>
+							</buildArgs>
+						</configuration>
 						<executions>
-						<execution>
-							<goals>
-								<goal>build</goal>
-							</goals>
-							<phase>package</phase>
-						</execution>
-						<execution>
-							<id>test</id>
-							<goals>
-								<goal>test</goal>
-							</goals>
-							<phase>test</phase>
-						</execution>
-					</executions>
+							<execution>
+								<goals>
+									<goal>build</goal>
+								</goals>
+								<phase>package</phase>
+							</execution>
+							<execution>
+								<id>test</id>
+								<goals>
+									<goal>test</goal>
+								</goals>
+								<phase>test</phase>
+							</execution>
+						</executions>
 					</plugin>
 					<plugin>
 						<artifactId>maven-assembly-plugin</artifactId>
@@ -217,5 +222,58 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-release</id>
+			<name>Spring release</name>
+			<url>https://repo.spring.io/release</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-milestone</id>
+			<name>Spring milestone</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-snapshot</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+	<repositories>
+		<repository>
+			<id>spring-release</id>
+			<name>Spring release</name>
+			<url>https://repo.spring.io/release</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-milestone</id>
+			<name>Spring milestone</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-snapshot</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
 
 </project>

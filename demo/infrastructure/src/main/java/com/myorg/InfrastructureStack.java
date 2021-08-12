@@ -40,7 +40,7 @@ public class InfrastructureStack extends Stack {
         List<String> functionOnePackagingInstructions = Arrays.asList(
                 "-c",
                 "cd uppercase " +
-                "&& mvn clean package -P native,native-image -DskipTests " +
+                "&& mvn clean package -P native -DskipTests " +
                 "&& cp /asset-input/uppercase/target/cloud-function-aws-0.0.1-SNAPSHOT-native-zip.zip /asset-output/"
         );
 
