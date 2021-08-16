@@ -12,7 +12,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>cloud-function-aws</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
+	<name>cloud-function-aws</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

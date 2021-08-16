@@ -39,9 +39,9 @@ public class InfrastructureStack extends Stack {
 
         List<String> functionOnePackagingInstructions = Arrays.asList(
                 "-c",
-                "cd uppercase " +
+                "cd cloud-function-aws " +
                 "&& mvn clean package -P native -DskipTests " +
-                "&& cp /asset-input/uppercase/target/cloud-function-aws-0.0.1-SNAPSHOT-native-zip.zip /asset-output/"
+                "&& cp /asset-input/cloud-function-aws/target/cloud-function-aws-0.0.1-SNAPSHOT-native-zip.zip /asset-output/"
         );
 
         BundlingOptions.Builder builderOptions = BundlingOptions.builder()
@@ -58,10 +58,11 @@ public class InfrastructureStack extends Stack {
 
         Function uppercaseFunction = new Function(this, "UppercaseFunction", FunctionProps.builder()
                 .runtime(Runtime.PROVIDED_AL2)
-                .code(Code.fromAsset("../software/", AssetOptions.builder()
+                .functionName("uppercase")
+                .code(Code.fromAsset("../", AssetOptions.builder()
                         .bundling(builderOptions.build())
                         .build()))
-                .handler("foobar")
+                .handler("uppercase")
                 .timeout(Duration.seconds(30))
                 .memorySize(256)
                 .logRetention(RetentionDays.ONE_WEEK)
