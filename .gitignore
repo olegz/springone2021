@@ -30,3 +30,4 @@ coverage-error.log
 credentials.yml
 .flattened-pom.xml
 pom.xml.versionsBackup
+cdk.out/

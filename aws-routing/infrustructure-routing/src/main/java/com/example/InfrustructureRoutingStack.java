@@ -40,9 +40,8 @@ public class InfrustructureRoutingStack extends Stack {
         List<String> functionOnePackagingInstructions = Arrays.asList(
                 "/bin/sh",
                 "-c",
-                "cd function-aws-springone ",
-                "&& mvn clean install ",
-                "&& cp /asset-input/function-aws-springone/target/function-aws-springone-1.0.0.RELEASE-aws.jar /asset-output/");
+                "mvn clean install " +
+                "&& cp /asset-input/target/function-aws-springone-1.0.0.RELEASE-aws.jar /asset-output/");
 
         BundlingOptions.Builder builderOptions = BundlingOptions.builder()
                 .command(functionOnePackagingInstructions)
