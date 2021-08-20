@@ -1,4 +1,4 @@
-package com.myorg;
+package com.example;
 
 import software.amazon.awscdk.core.BundlingOptions;
 import software.amazon.awscdk.core.CfnOutput;
@@ -39,12 +39,12 @@ import static software.amazon.awscdk.core.BundlingOutput.ARCHIVED;
  *  UppercaseApiUrl: The endpoint url of the API Gateway
  *
  */
-public class InfrastructureStack extends Stack {
-    public InfrastructureStack(final Construct scope, final String id) {
+public class InfrastructureNativeStack extends Stack {
+    public InfrastructureNativeStack(final Construct scope, final String id) {
         this(scope, id, null);
     }
 
-    public InfrastructureStack(final Construct scope, final String id, final StackProps props) {
+    public InfrastructureNativeStack(final Construct scope, final String id, final StackProps props) {
         super(scope, id, props);
 
         // The commands to be run as part of your docker build.
@@ -94,8 +94,8 @@ public class InfrastructureStack extends Stack {
                 .build());
 
         // Create a HTTP API in API Gateway
-        HttpApi httpApi = new HttpApi(this, "SpringOneAPI", HttpApiProps.builder()
-                .apiName("SpringOneAPI")
+        HttpApi httpApi = new HttpApi(this, "SpringOneUppercaseAPI", HttpApiProps.builder()
+                .apiName("SpringOneUppercaseAPI")
                 .build());
 
         // Whenever a GET request is made to the /uppercase path, forward that request to our Lambda function

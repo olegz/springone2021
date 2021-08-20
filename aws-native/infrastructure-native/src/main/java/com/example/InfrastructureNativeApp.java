@@ -1,4 +1,4 @@
-package com.myorg;
+package com.example;
 
 import software.amazon.awscdk.core.App;
 import software.amazon.awscdk.core.Environment;
@@ -6,11 +6,11 @@ import software.amazon.awscdk.core.StackProps;
 
 import java.util.Arrays;
 
-public class InfrastructureApp {
+public class InfrastructureNativeApp {
     public static void main(final String[] args) {
         App app = new App();
 
-        new InfrastructureStack(app, "InfrastructureStack", StackProps.builder()
+        new InfrastructureNativeStack(app, "InfrastructureNativeStack", StackProps.builder()
                 // If you don't specify 'env', this stack will be environment-agnostic.
                 // Account/Region-dependent features and context lookups will not work,
                 // but a single synthesized template can be deployed anywhere.

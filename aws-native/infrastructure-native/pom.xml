@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.myorg</groupId>
-    <artifactId>infrastructure</artifactId>
+    <artifactId>infrastructure-native</artifactId>
     <version>0.1</version>
 
     <properties>
@@ -30,7 +30,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <mainClass>com.myorg.InfrastructureApp</mainClass>
+                    <mainClass>com.example.InfrastructureNativeApp</mainClass>
                 </configuration>
             </plugin>
         </plugins>
