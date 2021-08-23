@@ -10,9 +10,9 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>cloud-function-aws</artifactId>
+	<artifactId>function-aws-native-springone</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>cloud-function-aws</name>
+	<name>function-aws-native-springone</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

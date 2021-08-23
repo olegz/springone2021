@@ -1,3 +1,19 @@
+/*
+ * Copyright 2021-2021 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example;
 
 import software.amazon.awscdk.core.BundlingOptions;
@@ -38,6 +54,8 @@ import static software.amazon.awscdk.core.BundlingOutput.ARCHIVED;
  *
  *  UppercaseApiUrl: The endpoint url of the API Gateway
  *
+ * @author Mark Sailes (AWS Lambda)
+ * @author Oleg Zhurakousky (Spring/VMWARE)
  */
 public class InfrastructureNativeStack extends Stack {
     public InfrastructureNativeStack(final Construct scope, final String id) {
@@ -51,9 +69,9 @@ public class InfrastructureNativeStack extends Stack {
         // -P native is used to enable the Spring native profile
         List<String> functionOnePackagingInstructions = Arrays.asList(
                 "-c",
-                "cd cloud-function-aws " +
+                "cd function-aws-native-springone " +
                 "&& mvn clean package -P native -DskipTests " +
-                "&& cp /asset-input/cloud-function-aws/target/cloud-function-aws-0.0.1-SNAPSHOT-native-zip.zip /asset-output/"
+                "&& cp /asset-input/function-aws-native-springone/target/function-aws-native-springone-0.0.1-SNAPSHOT-native-zip.zip /asset-output/"
         );
 
         // The docker image used has all the tools required to build the native binary.
@@ -94,8 +112,8 @@ public class InfrastructureNativeStack extends Stack {
                 .build());
 
         // Create a HTTP API in API Gateway
-        HttpApi httpApi = new HttpApi(this, "SpringOneUppercaseAPI", HttpApiProps.builder()
-                .apiName("SpringOneUppercaseAPI")
+        HttpApi httpApi = new HttpApi(this, "UppercaseFunctionAPI", HttpApiProps.builder()
+                .apiName("UppercaseFunction")
                 .build());
 
         // Whenever a GET request is made to the /uppercase path, forward that request to our Lambda function
@@ -109,8 +127,8 @@ public class InfrastructureNativeStack extends Stack {
                 .build());
 
         // Save and output the endpoint URL to ease manual testing.
-        CfnOutput apiUrl = new CfnOutput(this, "UppercaseApiUrl", CfnOutputProps.builder()
-                .exportName("UppercaseApiUrl")
+        CfnOutput apiUrl = new CfnOutput(this, "UppercaseFunctionCFN", CfnOutputProps.builder()
+                .exportName("UppercaseFunction")
                 .value(httpApi.getApiEndpoint())
                 .build());
     }

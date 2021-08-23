@@ -1,3 +1,19 @@
+/*
+ * Copyright 2021-2021 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example;
 
 import static java.util.Collections.singletonList;
@@ -8,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import software.amazon.awscdk.core.BundlingOptions;
+import software.amazon.awscdk.core.CfnOutput;
+import software.amazon.awscdk.core.CfnOutputProps;
 import software.amazon.awscdk.core.Construct;
 import software.amazon.awscdk.core.DockerVolume;
 import software.amazon.awscdk.core.Duration;
@@ -26,6 +44,11 @@ import software.amazon.awscdk.services.lambda.FunctionProps;
 import software.amazon.awscdk.services.lambda.Runtime;
 import software.amazon.awscdk.services.s3.assets.AssetOptions;
 
+/**
+ * @author Mark Sailes (AWS Lambda)
+ * @author Oleg Zhurakousky (Spring/VMWARE)
+ *
+ */
 public class InfrustructureRoutingStack extends Stack {
     public InfrustructureRoutingStack(final Construct scope, final String id) {
         this(scope, id, null);
@@ -52,9 +75,9 @@ public class InfrustructureRoutingStack extends Stack {
                         .build()))
                 .user("root");
 
-        Function rngService = new Function(this, "FunctionRouter", FunctionProps.builder()
+        Function rngService = new Function(this, "RoutingGateway", FunctionProps.builder()
                 .runtime(Runtime.JAVA_11)
-                .functionName("functionRouter")
+                .functionName("routingGateway")
                 .code(Code.fromAsset("../function-aws-springone/", AssetOptions.builder()
                         .bundling(builderOptions
                                 .build())
@@ -65,18 +88,24 @@ public class InfrustructureRoutingStack extends Stack {
                 .environment(rngEnvVars)
                 .build());
 
-        HttpApi httpApi = new HttpApi(this, "RoutingGateway", HttpApiProps.builder()
+        HttpApi httpApi = new HttpApi(this, "RoutingGatewayAPI", HttpApiProps.builder()
                 .apiName("RoutingGateway")
                 .build());
 
         httpApi.addRoutes(AddRoutesOptions.builder()
-                .path("/functionRouter")
+                .path("/routingGateway")
                 .methods(singletonList(HttpMethod.POST))
                 .integration(new LambdaProxyIntegration(LambdaProxyIntegrationProps.builder()
                         .handler(rngService)
                         .payloadFormatVersion(PayloadFormatVersion.VERSION_2_0)
                         .build()))
                 .build());
+
+		// Save and output the endpoint URL to ease manual testing.
+		CfnOutput apiUrl = new CfnOutput(this, "UppercaseFunctionCFN", CfnOutputProps.builder()
+				.exportName("UppercaseFunction")
+				.value(httpApi.getApiEndpoint())
+				.build());
 
     }
 }
