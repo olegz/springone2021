@@ -5,16 +5,16 @@ configuration and POM configured for GraalVM Native packaging. It consists of a 
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
-It is a [Maven](https://maven.apache.org/) based project, so you can open this project with any Maven compatible Java IDE to build and run tests.
+It is a [Maven](https://maven.apache.org/) based project, so you can open this project with any Maven compatible Java IDE.
 
-After installing and configuring AWS CDK environment as described [here](https://aws.amazon.com/cdk/?nc1=h_ls), simply run
+After installing and configuring AWS CDK environment as described [here](https://aws.amazon.com/cdk/), simply run
 
 ```
 cdk deploy
 
 ```
 
-. . . which will build your project and deploy it to your instance of AWS.
+. . . which will build your project and deploy it to your AWS account.
 
 ## Other useful commands
 
