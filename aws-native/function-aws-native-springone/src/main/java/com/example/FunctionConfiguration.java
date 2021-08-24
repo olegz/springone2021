@@ -19,12 +19,8 @@ package com.example;
 import java.util.function.Function;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.function.context.FunctionRegistration;
-import org.springframework.cloud.function.context.FunctionType;
 import org.springframework.cloud.function.context.FunctionalSpringApplication;
-import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.GenericApplicationContext;
 
 
 /**
@@ -37,10 +33,10 @@ import org.springframework.context.support.GenericApplicationContext;
  *
  */
 @SpringBootApplication
-public class FunuctionConfiguration {
+public class FunctionConfiguration {
 
 	public static void main(String[] args) {
-		FunctionalSpringApplication.run(FunuctionConfiguration.class, args);
+		FunctionalSpringApplication.run(FunctionConfiguration.class, args);
 	}
 
 	@Bean

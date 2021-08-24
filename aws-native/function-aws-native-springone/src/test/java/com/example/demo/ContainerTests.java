@@ -24,7 +24,7 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.output.ToStringConsumer;
 import org.testcontainers.utility.MountableFile;
 
-import com.example.FunuctionConfiguration;
+import com.example.FunctionConfiguration;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -49,7 +49,7 @@ public class ContainerTests {
 			int port = container.getFirstMappedPort();
 			String host = container.getHost();
 			System.err.println(host + ":" + port);
-			FunuctionConfiguration.main(new String[] { "--AWS_LAMBDA_RUNTIME_API=" + host + ":" + port, "--_HANDLER=foobar",
+			FunctionConfiguration.main(new String[] { "--AWS_LAMBDA_RUNTIME_API=" + host + ":" + port, "--_HANDLER=foobar",
 					"--logging.level.org.springframework=DEBUG" });
 			ResponseEntity<String> response = Awaitility.waitAtMost(30, TimeUnit.SECONDS).until(() -> {
 				ResponseEntity<String> result = new RestTemplate().postForEntity(
