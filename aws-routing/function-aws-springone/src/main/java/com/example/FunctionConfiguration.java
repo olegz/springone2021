@@ -33,16 +33,55 @@ public class FunctionConfiguration {
 
 
 	public static void main(String[] args) {
-		SpringApplication.run(FunctionConfiguration.class, args);
+		SpringApplication.run(FunctionConfiguration.class, "--spring.cloud.function.definition=uppercase|reverse");
 	}
 
 	@Bean
 	public Function<String, String> uppercase() {
-		return value -> value.toUpperCase();
+		return value -> {
+			System.out.println("Uppercasing " + value);
+			return value.toUpperCase();
+		};
 	}
 
 	@Bean
 	public Function<String, String> reverse() {
-		return value -> new StringBuilder(value).reverse().toString();
+		return value -> {
+			System.out.println("Reversing " + value);
+			return new StringBuilder(value).reverse().toString();
+		};
+	}
+
+	@Bean
+	public Function<Person, Person> uppercasePerson() {
+		return inPerson -> {
+			Person person = new Person();
+			person.setId(inPerson.getId());
+			person.setName(inPerson.getName().toUpperCase());
+			return person;
+		};
+	}
+
+}
+
+class Person {
+	private int id;
+
+	private String name;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
