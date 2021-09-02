@@ -2,4 +2,4 @@
 
 cd ${LAMBDA_TASK_ROOT:-.}
 
-./cloud-function-aws -Dlogging.level.org.springframework=DEBUG
+./function-aws-native-springone -Dlogging.level.org.springframework=DEBUG
