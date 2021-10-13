@@ -18,16 +18,12 @@ package oz.example.aws;
 
 import static java.util.Collections.singletonList;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import software.amazon.awscdk.core.BundlingOptions;
 import software.amazon.awscdk.core.CfnOutput;
 import software.amazon.awscdk.core.CfnOutputProps;
 import software.amazon.awscdk.core.Construct;
-import software.amazon.awscdk.core.DockerVolume;
 import software.amazon.awscdk.core.Duration;
 import software.amazon.awscdk.core.Stack;
 import software.amazon.awscdk.core.StackProps;
@@ -42,7 +38,6 @@ import software.amazon.awscdk.services.lambda.Code;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.FunctionProps;
 import software.amazon.awscdk.services.lambda.Runtime;
-import software.amazon.awscdk.services.s3.assets.AssetOptions;
 
 /**
  *
@@ -63,28 +58,10 @@ public class InfrustructureDemoAwsStack extends Stack {
 
         String normalizedFunctionDefName = cdkProperties.getFunctionDefinition().replace("|", "_").replace(",", "_");
 
-        List<String> functionOnePackagingInstructions = Arrays.asList(
-                "/bin/sh",
-                "-c",
-                "mvn clean install " +
-                "&& cp /asset-input/target/demo-aws-app-1.0.0.RELEASE-aws.jar /asset-output/");
-
-        BundlingOptions.Builder builderOptions = BundlingOptions.builder()
-                .command(functionOnePackagingInstructions)
-                .image(Runtime.JAVA_11.getBundlingImage())
-                .volumes(singletonList(DockerVolume.builder()
-                        .hostPath(System.getProperty("user.home") + "/.m2/")
-                        .containerPath("/root/.m2/")
-                        .build()))
-                .user("root");
-
-        Function rngService = new Function(this, normalizedFunctionDefName + "FN", FunctionProps.builder()
+        Function function = new Function(this, normalizedFunctionDefName + "FN", FunctionProps.builder()
                 .runtime(Runtime.JAVA_11)
                 .functionName(normalizedFunctionDefName)
-                .code(Code.fromAsset("./", AssetOptions.builder()
-                        .bundling(builderOptions
-                                .build())
-                        .build()))
+                .code(Code.fromAsset("target/demo-aws-app-1.0.0.RELEASE-aws.jar"))
                 .handler("org.springframework.cloud.function.adapter.aws.FunctionInvoker")
                 .memorySize(1024)
                 .timeout(Duration.seconds(20))
@@ -97,9 +74,9 @@ public class InfrustructureDemoAwsStack extends Stack {
 
         httpApi.addRoutes(AddRoutesOptions.builder()
                 .path("/" + normalizedFunctionDefName)
-                .methods(singletonList(HttpMethod.POST))
+                .methods(singletonList(HttpMethod.ANY))
                 .integration(new LambdaProxyIntegration(LambdaProxyIntegrationProps.builder()
-                        .handler(rngService)
+                        .handler(function)
                         .payloadFormatVersion(PayloadFormatVersion.VERSION_2_0)
                         .build()))
                 .build());
@@ -109,6 +86,5 @@ public class InfrustructureDemoAwsStack extends Stack {
 				.exportName("uppercase")
 				.value(httpApi.getApiEndpoint())
 				.build());
-
     }
 }
